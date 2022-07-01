@@ -1,0 +1,26 @@
+{
+  "auth": "zef:lizmat",
+  "authors": [
+    "Elizabeth Mattijsen"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "Provide Haskell's span functionality",
+  "license": "Artistic-2.0",
+  "name": "span",
+  "perl": "6.d",
+  "provides": {
+    "span": "lib/span.rakumod"
+  },
+  "resources": [
+  ],
+  "source-url": "https://github.com/lizmat/span.git",
+  "tags": [
+    "SPAN"
+  ],
+  "test-depends": [
+  ],
+  "version": "0.0.1"
+}
