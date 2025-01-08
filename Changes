@@ -1,6 +1,8 @@
 Revision history for span
 
 {{$NEXT}}
+
+0.0.2  2025-01-08T20:02:13+01:00
     - Add dependency on "snip"
     - Deprecate this distribution in favour of snip
     - Add CI badge for each OS
