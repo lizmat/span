@@ -1,6 +1,10 @@
 Revision history for span
 
 {{$NEXT}}
+    - Add dependency on "snip"
+    - Deprecate this distribution in favour of snip
+    - Add CI badge for each OS
+    - Update copyright year
 
 0.0.1  2022-07-01T15:16:33+02:00
     - Initial version

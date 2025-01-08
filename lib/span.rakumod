@@ -1,67 +1,6 @@
-use nqp;  # intended to be part of Raku core
+use snip:ver<0.0.2+>:auth<zef:lizmat>;
 
-my class Span does Iterator {
-    has $!tests;
-    has $!iterator;
-    has $!next;
-
-    method !SET-SELF(@tests, $iterator) {
-        $!tests    := nqp::getattr(@tests,List,'$!reified');
-        $!iterator := $iterator;
-        $!next     := $iterator.pull-one;
-        self
-    }
-
-    method new(@tests, $iterator) {
-        nqp::create(self)!SET-SELF(@tests, $iterator)
-    }
-
-    method pull-one() {
-        if nqp::eqaddr($!next,IterationEnd) {
-            IterationEnd
-        }
-        else {
-            my $buffer := nqp::create(IterationBuffer);
-            nqp::push($buffer,$!next);
-
-            my $iterator := $!iterator;
-            my $pulled;
-
-            if nqp::elems($!tests) {
-                my $test := nqp::shift($!tests);
-                nqp::until(
-                  nqp::eqaddr(($pulled := $iterator.pull-one),IterationEnd)
-                    || nqp::isfalse($test.ACCEPTS($pulled)),
-                  nqp::push($buffer,$pulled)
-                );
-
-            }
-            else {
-                nqp::until(
-                  nqp::eqaddr(($pulled := $iterator.pull-one),IterationEnd),
-                  nqp::push($buffer,$pulled)
-                );
-            }
-
-            $!next := $pulled;
-            $buffer.List
-        }
-    }
-}
-
-my proto sub span($, |) {*}
-my multi sub span(\condition,  +values) {
-    Seq.new: Span.new: (condition,), values.iterator
-}
-my multi sub span(@conditions, +values) {
-    Seq.new: Span.new: @conditions, values.iterator
-}
-
-sub EXPORT() {
-    CORE::.EXISTS-KEY('&span')
-      ?? Map.new
-      !! Map.new: ('&span' => &span)
-}
+sub EXPORT() { Map.new: ('&span' => &snip) }
 
 =begin pod
 
@@ -92,10 +31,11 @@ use span;
 
 =head1 DESCRIPTION
 
+NOTE: this distribution has been deprecated in favour of the
+L<snip|https://raku.land/zef:lizmat/snip> distribution.
+
 The C<span> distribution exports a single subroutine C<span> that mimics
 the functionality provided by L<Haskell's span functionality|https://hackage.haskell.org/package/base-4.16.1.0/docs/Prelude.html#v:span>.
-But only if the core does not supply a C<span> subroutine already (which
-it may at some point in the future).
 
 The C<span> subroutine takes a matcher much like C<grep> does, which can
 be a C<Callable> or any other object that can have the C<ACCEPTS> method
@@ -114,7 +54,7 @@ deal to me!
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2022 Elizabeth Mattijsen
+Copyright 2022, 2025 Elizabeth Mattijsen
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

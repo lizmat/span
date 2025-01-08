@@ -6,6 +6,7 @@
   "build-depends": [
   ],
   "depends": [
+    "snip:ver<0.0.2+>:auth<zef:lizmat>"
   ],
   "description": "Provide Haskell's span functionality",
   "license": "Artistic-2.0",
